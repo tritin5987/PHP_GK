@@ -1,3 +1,8 @@
+<?php if (!empty($_SESSION['error'])): ?>
+    <p style="color:red"><?= $_SESSION['error'] ?></p>
+    <?php unset($_SESSION['error']); ?>
+<?php endif; ?>
+
 <h2>Danh sách học phần</h2>
 
 <a href="<?= BASE_URL ?>dangky/cart">Xem giỏ học phần</a>

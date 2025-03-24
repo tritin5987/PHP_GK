@@ -14,6 +14,4 @@ class HocPhanController {
         $hocphans = $conn->query("SELECT * FROM HocPhan");
         include 'app/Views/hocphan/index.php';
     }
-
-    // xử lý đăng ký thêm sau nếu cần
 }

@@ -11,13 +11,34 @@ class DangKyController {
     public function add() {
         $this->ensureSession();
         if (!isset($_SESSION['user'])) header("Location: " . BASE_URL . "auth/login");
-
+    
+        global $conn;
+    
         $maHP = $_GET['MaHP'] ?? null;
+        $maSV = $_SESSION['user'];
+    
         if ($maHP) {
+            // 1. Kiểm tra học phần đã được đăng ký chưa
+            $query = "
+                SELECT ctdk.MaHP
+                FROM DangKy dk
+                JOIN ChiTietDangKy ctdk ON dk.MaDK = ctdk.MaDK
+                WHERE dk.MaSV = '$maSV' AND ctdk.MaHP = '$maHP'
+            ";
+            $result = $conn->query($query);
+            if ($result && $result->num_rows > 0) {
+                $_SESSION['error'] = "Học phần này đã được đăng ký trước đó!";
+                header("Location: " . BASE_URL . "hocphan/index");
+                exit();
+            }
+    
+            // 2. Nếu chưa đăng ký thì thêm vào giỏ
             $_SESSION['cart'][] = $maHP;
         }
+    
         header("Location: " . BASE_URL . "dangky/cart");
     }
+    
 
     public function cart() {
         $this->ensureSession();
