@@ -2,8 +2,14 @@
 require_once 'DB.php';
 
 class DangKyController {
+    private function ensureSession() {
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
+
     public function add() {
-        session_start();
+        $this->ensureSession();
         if (!isset($_SESSION['user'])) header("Location: " . BASE_URL . "auth/login");
 
         $maHP = $_GET['MaHP'] ?? null;
@@ -14,36 +20,42 @@ class DangKyController {
     }
 
     public function cart() {
-        session_start();
+        $this->ensureSession();
         if (!isset($_SESSION['user'])) header("Location: " . BASE_URL . "auth/login");
-
+    
         global $conn;
+        $maSV = $_SESSION['user'];
+    
+        // Lấy học phần
         $dsMaHP = $_SESSION['cart'] ?? [];
         $hocphans = [];
-
         if (!empty($dsMaHP)) {
             $in = "'" . implode("','", array_unique($dsMaHP)) . "'";
             $hocphans = $conn->query("SELECT * FROM HocPhan WHERE MaHP IN ($in)");
         }
-
+    
+        // Lấy thông tin sinh viên
+        $sv = $conn->query("SELECT sv.*, n.TenNganh FROM SinhVien sv JOIN NganhHoc n ON sv.MaNganh = n.MaNganh WHERE MaSV = '$maSV'")->fetch_assoc();
+    
         include 'app/Views/dangky/cart.php';
     }
+    
 
     public function remove() {
-        session_start();
+        $this->ensureSession();
         $maHP = $_GET['MaHP'] ?? '';
         $_SESSION['cart'] = array_filter($_SESSION['cart'], fn($item) => $item !== $maHP);
         header("Location: " . BASE_URL . "dangky/cart");
     }
 
     public function clear() {
-        session_start();
+        $this->ensureSession();
         unset($_SESSION['cart']);
         header("Location: " . BASE_URL . "dangky/cart");
     }
 
     public function save() {
-        session_start();
+        $this->ensureSession();
         global $conn;
 
         $maSV = $_SESSION['user'];
@@ -71,7 +83,7 @@ class DangKyController {
     }
 
     public function success() {
-        session_start();
+        $this->ensureSession();
         $msg = $_SESSION['success'] ?? 'Không có nội dung!';
         unset($_SESSION['success']);
         echo "<h3>$msg</h3>";

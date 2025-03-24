@@ -1,4 +1,7 @@
 <h2>Danh sách học phần</h2>
+
+<a href="<?= BASE_URL ?>dangky/cart">Xem giỏ học phần</a>
+
 <table border="1" cellpadding="10">
     <tr>
         <th>Mã HP</th>

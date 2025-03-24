@@ -14,7 +14,10 @@ if ($controller === 'sinhvien') {
     $controllerClass = 'AuthController';
 } elseif ($controller === 'hocphan') {
     $controllerClass = 'HocPhanController';
-} else {
+} elseif ($controller === 'dangky') {
+    $controllerClass = 'DangKyController';
+}
+else {
     $controllerClass = ucfirst($controller) . 'Controller';
 }
 
