@@ -18,7 +18,14 @@ class DangKyController {
         $maSV = $_SESSION['user'];
     
         if ($maHP) {
-            // 1. Kiểm tra học phần đã được đăng ký chưa
+            // 1. Kiểm tra nếu đã có trong giỏ hàng
+            if (isset($_SESSION['cart']) && in_array($maHP, $_SESSION['cart'])) {
+                $_SESSION['error'] = "Học phần này đã có trong giỏ hàng!";
+                header("Location: " . BASE_URL . "hocphan/index");
+                exit();
+            }
+    
+            // 2. Kiểm tra học phần đã được đăng ký trong CSDL
             $query = "
                 SELECT ctdk.MaHP
                 FROM DangKy dk
@@ -32,12 +39,13 @@ class DangKyController {
                 exit();
             }
     
-            // 2. Nếu chưa đăng ký thì thêm vào giỏ
+            // 3. Hợp lệ → thêm vào giỏ
             $_SESSION['cart'][] = $maHP;
         }
     
         header("Location: " . BASE_URL . "dangky/cart");
     }
+    
     
 
     public function cart() {
