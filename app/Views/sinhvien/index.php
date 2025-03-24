@@ -1,5 +1,15 @@
-<h2>Danh sách sinh viên</h2>
+
+<?php
+require_once 'app/Models/SinhVien.php';
+$tenSV = SinhVien::getNameByMaSV($_SESSION['user']);
+?>
+
+<p>
+    Xin chào <strong><?= $tenSV ?></strong> |
+    <a href="<?= BASE_URL ?>auth/logout">Đăng xuất</a>
+</p><h2>Danh sách sinh viên</h2>
 <a href="<?= BASE_URL ?>sinhvien/create">Thêm sinh viên</a>
+<a href="<?= BASE_URL ?>hocphan/index">Đăng ký học phần</a>
 <table border="1" cellpadding="10" cellspacing="0">
 <tr>
     <th>Mã SV</th>

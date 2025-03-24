@@ -1,7 +1,12 @@
+
 <h2>Sửa sinh viên</h2>
 <form method="post" enctype="multipart/form-data">
     Họ tên: <input name="HoTen" value="<?= $sv['HoTen'] ?>"><br>
-    Giới tính: <input name="GioiTinh" value="<?= $sv['GioiTinh'] ?>"><br>
+    Giới tính:
+    <select name="GioiTinh">
+        <option value="Nam">Nam</option>
+        <option value="Nữ">Nữ</option>
+    </select><br>
     Ngày sinh: <input type="date" name="NgaySinh" value="<?= $sv['NgaySinh'] ?>"><br>
     Ảnh: <input type="file" name="Hinh"><br>
     (Ảnh hiện tại: <img src="<?= BASE_URL . $sv['Hinh'] ?>" width="60">)<br>

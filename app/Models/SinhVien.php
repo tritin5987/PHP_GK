@@ -31,4 +31,13 @@ class SinhVien {
         global $conn;
         $conn->query("DELETE FROM SinhVien WHERE MaSV='$maSV'");
     }
+    public static function getNameByMaSV($maSV) {
+        global $conn;
+        $result = $conn->query("SELECT HoTen FROM SinhVien WHERE MaSV = '$maSV'");
+        if ($result && $row = $result->fetch_assoc()) {
+            return $row['HoTen'];
+        }
+        return $maSV; // fallback nếu không tìm thấy
+    }
+    
 }

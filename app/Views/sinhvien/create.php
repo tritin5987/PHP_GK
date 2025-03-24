@@ -1,8 +1,14 @@
+
+
 <h2>Thêm sinh viên</h2>
 <form method="post" enctype="multipart/form-data">
     Mã SV: <input name="MaSV"><br>
     Họ tên: <input name="HoTen"><br>
-    Giới tính: <input name="GioiTinh"><br>
+    Giới tính:
+    <select name="GioiTinh">
+        <option value="Nam">Nam</option>
+        <option value="Nữ">Nữ</option>
+    </select><br>
     Ngày sinh: <input type="date" name="NgaySinh"><br>
     Ảnh: <input type="file" name="Hinh"><br>
     Mã ngành:
